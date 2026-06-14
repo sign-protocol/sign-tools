@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+'use strict';
+
+require('../src/cli/main').main(process.argv.slice(2)).catch(err => {
+  console.error(err.message || String(err));
+  process.exitCode = err.exitCode || 1;
+});
+

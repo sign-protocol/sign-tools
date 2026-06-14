@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sign-notation.org/schemas/sign-ingest-ir.schema.json",
+  "title": "sign-ingest Intermediate Representation",
+  "type": "object",
+  "required": ["manifest", "metadata", "definition", "drops"],
+  "properties": {
+    "manifest": {
+      "type": "object",
+      "required": ["name", "version", "signSpec", "ontologyMode", "sourcePath"],
+      "properties": {
+        "name": { "const": "sign-ingest" },
+        "version": { "type": "string" },
+        "signSpec": { "type": "string" },
+        "ontologyMode": { "enum": ["freeform", "governed"] },
+        "sourcePath": { "type": "string" }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["id", "doctype", "signType", "status", "audiences", "version"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string" },
+        "doctype": { "enum": ["policy", "standard", "adr", "plan", "glossary", "reference"] },
+        "signType": { "enum": ["pol", "std", "adr", "pln", "gls", "ref"] },
+        "status": { "enum": ["active", "inactive", "draft", "deprecated"] },
+        "audiences": { "type": "string", "minLength": 1 },
+        "version": { "pattern": "^v[0-9]+$" },
+        "summary": { "type": "string" }
+      }
+    },
+    "definition": { "$ref": "#/$defs/fact" },
+    "vocab": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["predicate", "definition"],
+        "properties": {
+          "predicate": { "pattern": "^[A-Za-z_][A-Za-z0-9_-]*$" },
+          "definition": { "type": "string" },
+          "spans": { "$ref": "#/$defs/spans" }
+        }
+      }
+    },
+    "props": { "$ref": "#/$defs/facts" },
+    "include": { "$ref": "#/$defs/facts" },
+    "exclude": { "$ref": "#/$defs/facts" },
+    "rules": { "$ref": "#/$defs/facts" },
+    "boundary": { "$ref": "#/$defs/facts" },
+    "constraints": { "$ref": "#/$defs/facts" },
+    "infer": { "$ref": "#/$defs/facts" },
+    "rel": { "$ref": "#/$defs/facts" },
+    "edges": { "$ref": "#/$defs/facts" },
+    "xwalk": { "$ref": "#/$defs/facts" },
+    "attrs": {
+      "type": "object",
+      "required": ["required", "optional"],
+      "properties": {
+        "required": { "$ref": "#/$defs/facts" },
+        "optional": { "$ref": "#/$defs/facts" }
+      }
+    },
+    "phases": { "$ref": "#/$defs/facts" },
+    "status": { "$ref": "#/$defs/facts" },
+    "drops": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["reason", "explanation", "span"],
+        "properties": {
+          "reason": { "enum": ["out-of-scope", "ambiguous", "low-confidence", "unsupported-doctype"] },
+          "explanation": { "type": "string" },
+          "span": { "$ref": "#/$defs/spanReport" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "facts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/fact" }
+    },
+    "fact": {
+      "type": "object",
+      "required": ["kind", "text", "confidence", "extractionMethod"],
+      "properties": {
+        "kind": { "type": "string" },
+        "name": { "type": ["string", "null"] },
+        "text": { "type": "string" },
+        "confidence": { "enum": ["low", "medium", "high"] },
+        "extractionMethod": { "enum": ["direct", "inferred", "resolved"] },
+        "spans": { "$ref": "#/$defs/spans" },
+        "extra": { "type": "object" }
+      }
+    },
+    "spans": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/span" }
+    },
+    "span": {
+      "type": "object",
+      "required": ["id", "file", "startLine", "endLine", "startByte", "endByte", "text"],
+      "properties": {
+        "id": { "type": "string" },
+        "file": { "type": "string" },
+        "startLine": { "type": "integer", "minimum": 1 },
+        "endLine": { "type": "integer", "minimum": 1 },
+        "startByte": { "type": "integer", "minimum": 0 },
+        "endByte": { "type": "integer", "minimum": 0 },
+        "text": { "type": "string" }
+      }
+    },
+    "spanReport": {
+      "type": "object",
+      "required": ["id", "file", "startLine", "endLine", "startByte", "endByte", "text"],
+      "properties": {
+        "id": { "type": "string" },
+        "file": { "type": "string" },
+        "startLine": { "type": "integer" },
+        "endLine": { "type": "integer" },
+        "startByte": { "type": "integer" },
+        "endByte": { "type": "integer" },
+        "text": { "type": "string" }
+      }
+    }
+  }
+}
+

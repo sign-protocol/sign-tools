@@ -1,0 +1,19 @@
+{
+  "name": "@sign-tools/sign-draft",
+  "version": "0.1.0",
+  "description": "Claude Code skill for authoring new SIGN documents from intent, guided by the spec and validated.",
+  "license": "MIT",
+  "type": "commonjs",
+  "files": [
+    ".claude",
+    "README.md"
+  ],
+  "scripts": {
+    "sync": "node scripts/sync-spec.js",
+    "check-sync": "node scripts/sync-spec.js --check",
+    "test": "node scripts/sync-spec.js --check"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

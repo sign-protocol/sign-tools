@@ -1,0 +1,29 @@
+{
+  "name": "@sign-tools/sign-ingest",
+  "version": "0.1.0",
+  "description": "Reference CLI for converting source documents into SIGN documents with provenance and drop reports.",
+  "license": "MIT",
+  "type": "commonjs",
+  "bin": {
+    "sign-ingest": "./bin/sign-ingest"
+  },
+  "main": "./src/index.js",
+  "files": [
+    "bin",
+    "src",
+    "schemas",
+    "evals",
+    ".claude",
+    "README.md",
+    "SPEC.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "node ./bin/sign-ingest --version",
+    "test": "node test/convert.test.js",
+    "eval": "node ./evals/runner.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sign-notation.org/schemas/sign-ingest-ontology.schema.json",
+  "title": "sign-ingest Ontology Configuration",
+  "type": "object",
+  "properties": {
+    "signSpec": {
+      "type": "string",
+      "default": ">=1.0,<2.0"
+    },
+    "namespaces": {
+      "description": "Allowed namespace prefixes for emitted IDs.",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "properties": {
+                  "description": { "type": "string" }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "required": ["prefix"],
+                "properties": {
+                  "prefix": { "type": "string" },
+                  "description": { "type": "string" }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "predicates": {
+      "description": "Allowed SIGN relationship predicates.",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "properties": {
+                  "definition": { "type": "string" },
+                  "description": { "type": "string" }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "required": ["predicate"],
+                "properties": {
+                  "predicate": { "type": "string" },
+                  "definition": { "type": "string" },
+                  "description": { "type": "string" }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "documentId": {
+      "type": "object",
+      "properties": {
+        "prefix": { "type": "string" },
+        "pattern": { "type": "string" }
+      }
+    }
+  },
+  "additionalProperties": true
+}
+

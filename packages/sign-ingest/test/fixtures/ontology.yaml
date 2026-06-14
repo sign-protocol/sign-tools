@@ -1,0 +1,7 @@
+signSpec: ">=1.0,<2.0"
+namespaces:
+  customer: Customer label
+  doc: Document ID
+predicates:
+  depends_on: source cannot be applied without target
+

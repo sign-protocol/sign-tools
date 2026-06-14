@@ -1,0 +1,17 @@
+{
+  "name": "sign-tools",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Reference implementations and utilities for the SIGN-LANG ecosystem.",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm --workspace @sign-tools/sign-ingest test",
+    "build": "npm --workspace @sign-tools/sign-ingest run build"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+
