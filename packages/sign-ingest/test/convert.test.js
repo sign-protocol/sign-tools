@@ -34,6 +34,12 @@ test('convert emits SIGN, drop report, and provenance report', async () => {
 
   const provenance = JSON.parse(fs.readFileSync(result.provPath, 'utf8'));
   assert.ok(provenance.blocks.length > 0);
+
+  assert.ok(fs.existsSync(result.semanticPath), 'semantic report exists');
+  const semantic = JSON.parse(fs.readFileSync(result.semanticPath, 'utf8'));
+  assert.equal(typeof semantic.coverage, 'number');
+  assert.ok('gaps' in semantic && Array.isArray(semantic.gaps));
+  assert.deepEqual(semantic, result.semanticCompleteness);
 });
 
 test('convert is deterministic for identical input and options', async () => {

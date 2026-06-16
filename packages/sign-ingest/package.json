@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "build": "node ./bin/sign-ingest --version",
-    "test": "node test/convert.test.js",
+    "test": "node --test test/*.test.js",
     "eval": "node ./evals/runner.js"
   },
   "engines": {

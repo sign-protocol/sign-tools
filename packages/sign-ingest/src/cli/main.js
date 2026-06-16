@@ -48,6 +48,8 @@ async function runConvert(args) {
     force: has(args, '--force'),
     coinIds: has(args, '--coin-ids'),
     validatorBin: value(args, '--validator-bin'),
+    strictSemantic: has(args, '--strict-semantic'),
+    minGapChars: intValue(args, '--min-gap-chars'),
   });
   printConvertResult(result);
   if (!result.ok) process.exitCode = 1;
@@ -66,6 +68,8 @@ async function runBatch(args) {
     force: has(args, '--force'),
     coinIds: has(args, '--coin-ids'),
     validatorBin: value(args, '--validator-bin'),
+    strictSemantic: has(args, '--strict-semantic'),
+    minGapChars: intValue(args, '--min-gap-chars'),
   });
   let failed = 0;
   for (const result of results) {
@@ -122,7 +126,17 @@ function printConvertResult(result) {
   console.log(`drop report: ${rel(result.dropPath)} (${result.dropCount} drops)`);
   console.log(`provenance:  ${rel(result.provPath)} (${result.provenanceCount} entries)`);
   if (result.reviewApplied) console.log(`review:      ${rel(result.reviewPath)} applied`);
+  printSemantic(result.semanticCompleteness, rel(result.semanticPath));
   printValidation(result.validation);
+}
+
+function printSemantic(semantic, semanticPathRel) {
+  if (!semantic) return;
+  console.log(`semantic:    ${semanticPathRel} (coverage ${Math.round(semantic.coverage * 100)}%, ${semantic.gapCount} gap(s), ${semantic.highGapCount} high)`);
+  for (const gap of semantic.gaps || []) {
+    const where = gap.span ? `${gap.span.file}:${gap.span.startLine}-${gap.span.endLine}` : '';
+    console.warn(`warn  semantic gap [${gap.severity} ${gap.kind}] ${where} ${gap.excerpt}`);
+  }
 }
 
 function printValidation(validation) {
@@ -136,8 +150,8 @@ function printValidation(validation) {
 function printUsage() {
   console.log([
     'Usage:',
-    '  sign-ingest convert <input> [--doctype TYPE] [--out PATH] [--ontology PATH] [--review] [--force] [--coin-ids]',
-    '  sign-ingest batch <input-dir> --out <out-dir> [--doctype-map PATH] [--ontology PATH]',
+    '  sign-ingest convert <input> [--doctype TYPE] [--out PATH] [--ontology PATH] [--review] [--force] [--coin-ids] [--strict-semantic] [--min-gap-chars N]',
+    '  sign-ingest batch <input-dir> --out <out-dir> [--doctype-map PATH] [--ontology PATH] [--strict-semantic]',
     '  sign-ingest doctor <out.sign>',
     '  sign-ingest promote <out.sign> [--accept-all]',
     '',
@@ -159,6 +173,13 @@ function value(args, flag) {
   const index = args.indexOf(flag);
   if (index === -1) return null;
   return args[index + 1] || null;
+}
+
+function intValue(args, flag) {
+  const raw = value(args, flag);
+  if (raw === null) return undefined;
+  const n = Number.parseInt(raw, 10);
+  return Number.isFinite(n) ? n : undefined;
 }
 
 function positional(args) {

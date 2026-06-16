@@ -13,15 +13,22 @@ Use this skill when an operator asks Claude Code to convert source documents int
 3. Invoke the CLI:
 
    ```bash
-   sign-ingest convert <input> --doctype <type> --out <path> [--ontology <path>] [--review]
+   sign-ingest convert <input> --doctype <type> --out <path> [--ontology <path>] [--review] [--strict-semantic]
    ```
 
 4. Never bypass validation.
    - If validation fails, surface the validator errors verbatim and stop.
    - Do not manually edit SIGN to paper over validator output without operator approval.
-5. Walk the operator through:
+5. Check semantic completeness (non-lossiness).
+   - The validator proves the SIGN is well-formed; `<id>.semantic.json` proves it didn't drop
+     reasoning the prose asserts (dropped normative rules, relationships, or definitions = gaps).
+   - Review reported gaps and recover the missing structure into the SIGN.
+   - Pass `--strict-semantic` when authoring/publishing canon (e.g. via canon-author): a
+     high-severity gap then FAILS the conversion instead of warning.
+6. Walk the operator through:
    - `<id>.drop.json`
    - `<id>.prov.json`
+   - `<id>.semantic.json`
    - optional `<id>.review.json`
 
 ## Doctypes

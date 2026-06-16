@@ -55,6 +55,7 @@ function outputPathsFor(inputPath, outArg, documentId) {
     dropPath: path.join(dir, `${stem}.drop.json`),
     provPath: path.join(dir, `${stem}.prov.json`),
     reviewPath: path.join(dir, `${stem}.review.json`),
+    semanticPath: path.join(dir, `${stem}.semantic.json`),
   };
 }
 

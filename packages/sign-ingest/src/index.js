@@ -11,6 +11,7 @@ const { readSourceDocument, discoverInputFiles } = require('./document/source');
 const { writeJson } = require('./utils/json');
 const { parseYaml } = require('./utils/yaml');
 const { validateSign } = require('./validator-bridge/validator');
+const { checkSemanticCompleteness } = require('./validation/semantic-completeness');
 
 async function convertDocument(inputPath, options = {}) {
   const source = readSourceDocument(inputPath);
@@ -24,6 +25,7 @@ async function convertDocument(inputPath, options = {}) {
   const emitted = emitSign(ir, { ontology });
   const dropReport = makeDropReport(ir);
   const provReport = makeProvenanceReport(ir, emitted);
+  const semantic = checkSemanticCompleteness({ dropReport, provReport, options });
 
   fs.mkdirSync(path.dirname(out.signPath), { recursive: true });
   let signText = emitted.signText;
@@ -33,6 +35,7 @@ async function convertDocument(inputPath, options = {}) {
   fs.writeFileSync(out.signPath, signText, 'utf8');
   writeJson(out.dropPath, dropReport);
   writeJson(out.provPath, provReport);
+  writeJson(out.semanticPath, semantic);
 
   if (options.review) {
     const review = await runReview({
@@ -56,14 +59,20 @@ async function convertDocument(inputPath, options = {}) {
     }
   }
 
+  // The validator proves well-formedness; the semantic gate proves the SIGN didn't drop reasoning
+  // the prose asserts. Advisory by default; in --strict-semantic mode a high-severity gap fails.
+  const ok = validation.ok && (!options.strictSemantic || semantic.ok);
+
   return {
-    ok: validation.ok,
+    ok,
     sourcePath: source.filePath,
     signPath: out.signPath,
     dropPath: out.dropPath,
     provPath: out.provPath,
     reviewPath: out.reviewPath,
+    semanticPath: out.semanticPath,
     validation,
+    semanticCompleteness: semantic,
     dropCount: dropReport.items.length,
     provenanceCount: provReport.blocks.length,
     reviewApplied: existingReview.applied,
