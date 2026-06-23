@@ -17,7 +17,22 @@ sign-ingest batch ./docs --out ./sign-output --doctype-map config.yaml
 
 # Interactive review
 sign-ingest convert document.md --doctype standard --review
+
+# Import an OKF bundle into SIGN skeletons (deterministic, Stage 1)
+sign-ingest import okf ./finance-okf -o ./sign-skeletons --allow-typemap-fallback
 ```
+
+## OKF import (Stage 1)
+
+`import okf` is the deterministic OKF→SIGN skeletoniser (SIGN Tooling RFC §2). It is a pure
+function of the bundle and **invents no governance** — it emits `@doc`/`@anchor`/`@def`/`@links`/
+`@props`/`@xwalk` skeletons and never `@constraints`/`@infer`/`@cluster`/`@boundary`. Each concept
+gets a provisional id (`prov:<bundle>.<slug>`), the non-authoritative `imported` status, an
+`@anchor` to its OKF path, and an `@xwalk okf:… => …` provenance line. Markdown links resolve to
+sibling provisional ids (unresolved ones are reported, never guessed); `index.md`/`log.md` are
+skipped. Unmapped OKF types fall back to `ref`, are recorded in `import-report.json`, and fail the
+run unless `--allow-typemap-fallback` is passed. Stage 2 (the `sign-draft` skill) reads each
+skeleton plus the original prose and proposes reviewed governance.
 
 ## Status
 

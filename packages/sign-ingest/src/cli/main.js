@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('node:path');
-const { batchConvert, convertDocument, doctor, promote } = require('..');
+const { batchConvert, convertDocument, doctor, promote, importOkf, writeImport } = require('..');
 
 const VERSION = '0.1.0';
 
@@ -28,6 +28,9 @@ async function main(argv = []) {
       break;
     case 'promote':
       await runPromote(rest);
+      break;
+    case 'import':
+      await runImport(rest);
       break;
     default: {
       const err = new Error(`Unknown command "${command}".`);
@@ -120,6 +123,38 @@ async function runPromote(args) {
   if (!result.validation.ok) process.exitCode = 1;
 }
 
+async function runImport(args) {
+  const kind = positional(args)[0];
+  if (kind !== 'okf') usageError('import requires a kind: "okf" (only OKF is supported).');
+  const okfDir = positional(args)[1];
+  const out = value(args, '-o') || value(args, '--out');
+  if (!okfDir) usageError('import okf requires <okf-dir>.');
+  if (!out) usageError('import okf requires -o <out-dir>.');
+
+  const result = importOkf(okfDir, {
+    bundle: value(args, '--bundle'),
+    typemapPath: value(args, '--typemap'),
+    audience: value(args, '--audience'),
+    allowTypemapFallback: has(args, '--allow-typemap-fallback'),
+  });
+  const { reportPath } = writeImport(result, out);
+  const r = result.report;
+
+  const rel = file => path.relative(process.cwd(), file);
+  console.log(`bundle:      ${r.bundle}`);
+  console.log(`concepts:    ${r.concepts_in} in -> ${r.skeletons_out} skeleton(s)`);
+  console.log(`links:       ${r.links.resolved} resolved, ${r.links.unresolved} unresolved`);
+  for (const u of r.unresolved_links) console.warn(`warn  unresolved link ${u.from} -> ${u.href}`);
+  for (const m of r.typemap_misses) console.warn(`warn  typemap miss type:${m.type} (×${m.count}) fell back to ${m.fell_back_to}`);
+  console.log(`governance:  ${r.todo_governance} skeleton(s) marked TODO(sign-draft)`);
+  console.log(`report:      ${rel(reportPath)}`);
+
+  if (!result.ok) {
+    console.error('fail — unmapped OKF type(s); add a --typemap entry or pass --allow-typemap-fallback.');
+    process.exitCode = 1;
+  }
+}
+
 function printConvertResult(result) {
   const rel = file => path.relative(process.cwd(), file);
   console.log(`${result.ok ? 'ok' : 'fail'}   ${rel(result.sourcePath)} -> ${rel(result.signPath)}`);
@@ -154,6 +189,7 @@ function printUsage() {
     '  sign-ingest batch <input-dir> --out <out-dir> [--doctype-map PATH] [--ontology PATH] [--strict-semantic]',
     '  sign-ingest doctor <out.sign>',
     '  sign-ingest promote <out.sign> [--accept-all]',
+    '  sign-ingest import okf <okf-dir> -o <out-dir> [--bundle NAME] [--typemap okf.typemap.json] [--audience AUD] [--allow-typemap-fallback]',
     '',
     'Registered doctypes: policy, standard, adr, plan, glossary, reference',
   ].join('\n'));

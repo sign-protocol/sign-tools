@@ -12,6 +12,7 @@ const { writeJson } = require('./utils/json');
 const { parseYaml } = require('./utils/yaml');
 const { validateSign } = require('./validator-bridge/validator');
 const { checkSemanticCompleteness } = require('./validation/semantic-completeness');
+const { importOkf, writeImport } = require('./okf/import-okf');
 
 async function convertDocument(inputPath, options = {}) {
   const source = readSourceDocument(inputPath);
@@ -154,7 +155,9 @@ module.exports = {
   batchConvert,
   convertDocument,
   doctor,
+  importOkf,
   loadOntology,
   promote,
+  writeImport,
 };
 
