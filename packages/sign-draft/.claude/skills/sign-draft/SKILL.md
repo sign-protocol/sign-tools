@@ -45,6 +45,12 @@ normative. When in doubt, defer to the canonical spec in the `sign-lang` reposit
    - `type:estimated` — model-estimated; must carry a confidence score.
    - LLM-derived facts use `confidence: derived` or `estimated` and **must not** be promoted to
      `asserted` without a human reviewer in `src:`.
+   - **Codebase canon (the `*-ARCH`/`*-DEPS`/`*-OVERVIEW`/`*-STANDARDS` pattern):** the descriptive
+     prose (`@def`/`@rules`/`@boundary`/`@props`/`@constraints`) is an LLM's reading of the code —
+     `src:llm-extraction` — and must **never** be marked `type:asserted`. Only mechanically-verified
+     `@edges` extracted from `*.csproj` may (`[type:asserted, src:csproj]`). Mark every machine-drafted
+     codebase document with the provisional `machine-drafted` landing-status token in its `@doc` bag
+     (`[std, active, agents, machine-drafted]`); it is cleared only by a human landing step.
 
 4. **Never fabricate integrity hashes.** Use `sha:pending` for any unregistered document. The real
    `sha:` is the SHA-256 of the compiled artifact, produced at compile time — never make one up.
@@ -67,6 +73,12 @@ normative. When in doubt, defer to the canonical spec in the `sign-lang` reposit
    - Do not introduce new sigils or new cluster types; those require a proposal in `sign-lang` first.
    - Changes to `@def`, `@include`, `@exclude`, `@rules`, `@rel`, `@constraints`, or `@infer` on an
      `active` document are breaking changes requiring a major version bump — flag this to the operator.
+   - **Codebase-canon anchoring:** put an `@anchor` on `*-ARCH` (`+ src/<Project>.*/**`, excluding
+     tests/bin/obj), `*-DEPS` (`+ **/*.csproj`, bag key `generated-from:csproj`), and `*-OVERVIEW`
+     (entrypoints + `README.md`) — but **never** a spatial `@anchor` on `*-STANDARDS`. Emit cross-repo
+     edges in registry-resolvable form `codebase.<slug>#<DOC-ID>`, not bare `repo:<name>` strings.
+     `generated-from:` and `machine-drafted` are provisional — see
+     `sign-lang/proposals/2026-07-codebase-canon-reinforcement.md`.
 
 ## Output
 
