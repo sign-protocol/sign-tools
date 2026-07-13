@@ -3,7 +3,7 @@
 ## Before You Start
 
 1. Read [AGENTS.md](../AGENTS.md) - This is the agentic OS that governs development
-2. Understand the [project brief](../.agent/operating-system/product/project-brief.md)
+2. Understand the [project brief](../.agent/operating-system/product/README.md)
 3. Review the relevant tool's SPEC.md in `packages/<tool>/`
 
 ## Adding a New Tool

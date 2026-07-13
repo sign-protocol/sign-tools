@@ -1,6 +1,6 @@
 ﻿# AGENTS.md — Sign Tools Toolbox
 
-This repository is a monorepo for tools supporting the [SIGN-LANG](https://github.com/sign-notation/sign-lang) project. It uses an agentic development operating system to enable AI-assisted implementation while maintaining human control over strategy and risk.
+This repository is a monorepo for tools supporting the [SIGN-LANG](https://github.com/sign-protocol/sign-lang) project. It uses an agentic development operating system to enable AI-assisted implementation while maintaining human control over strategy and risk.
 
 ## Repository Purpose
 
@@ -18,7 +18,7 @@ Read these files in order:
 3. `.agent/policies/approvals.md` - Approval boundaries
 4. `.agent/policies/agent-coding-standards.md` - Code standards
 5. `.agent/operating-system/README.md` - Operating system
-6. `.agent/operating-system/product/project-brief.md` - Current mission
+6. `.agent/operating-system/product/README.md` - Current mission
 
 ## Tool Onboarding
 
@@ -37,7 +37,7 @@ For **contributors** to existing tools:
 
 ## Core Workflow
 1. Understand the request, constraints, and risk tier
-2. Check `.agent/operating-system/product/project-brief.md` for repo intent
+2. Check `.agent/operating-system/product/README.md` for repo intent
 3. Create or update a plan in `.agent/operating-system/plans/` for material work
 4. Request approval before any approval-boundary action
 5. Implement in small, verifiable increments

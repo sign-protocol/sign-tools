@@ -1,0 +1,11 @@
+# Normalize line endings across platforms — store as LF in the repo.
+* text=auto eol=lf
+
+# Explicitly treat binaries as binary (never normalize/diff).
+*.docx binary
+*.png  binary
+*.ico  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.pdf  binary

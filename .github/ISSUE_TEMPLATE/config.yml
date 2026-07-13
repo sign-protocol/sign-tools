@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: SIGN specification
+    url: https://github.com/sign-protocol/sign-lang
+    about: Issues about the SIGN notation itself belong in the sign-lang repo.
+  - name: Question / discussion
+    url: https://github.com/sign-protocol/sign-tools/discussions
+    about: For usage questions and open-ended discussion, please use Discussions.

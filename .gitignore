@@ -5,3 +5,9 @@ dist/
 *.log
 *.review.json.tmp
 
+
+# Sandbox-generated lockfile (workspaces install)
+package-lock.json
+
+# Internal product brief — not for public release
+.agent/operating-system/product/project-brief.md

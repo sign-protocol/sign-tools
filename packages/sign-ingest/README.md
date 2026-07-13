@@ -1,6 +1,6 @@
 # sign-ingest
 
-Reference implementation for converting unstructured documents into valid [SIGN](https://github.com/sign-notation/sign-lang) format.
+Reference implementation for converting unstructured documents into valid [SIGN](https://github.com/sign-protocol/sign-lang) format.
 
 ## Mission
 
@@ -91,5 +91,5 @@ npm run eval
 
 ## Related
 
-- [SIGN-LANG](https://github.com/sign-notation/sign-lang) - The spec
+- [SIGN-LANG](https://github.com/sign-protocol/sign-lang) - The spec
 - [sign-tools](../../README.md) - Parent toolbox
