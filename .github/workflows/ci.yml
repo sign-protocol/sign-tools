@@ -15,6 +15,15 @@ jobs:
         node-version: [18.x, 20.x, 22.x]
     steps:
       - uses: actions/checkout@v4
+      # sign-ingest's tests shell out to the upstream SIGN validator CLI.
+      # Check out sign-lang so the Test step can point SIGN_VALIDATOR_BIN at it.
+      # (Requires sign-lang to be accessible to this workflow - it is once
+      # both repos are public; otherwise supply a token with read access.)
+      - name: Check out SIGN validator (sign-lang)
+        uses: actions/checkout@v4
+        with:
+          repository: sign-protocol/sign-lang
+          path: sign-lang
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -23,3 +32,6 @@ jobs:
         run: npm install
       - name: Test
         run: npm test
+        env:
+          # Point sign-ingest's validator bridge at the checked-out validator.
+          SIGN_VALIDATOR_BIN: ${{ github.workspace }}/sign-lang/validator/bin/sign.js
