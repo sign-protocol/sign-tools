@@ -1,6 +1,6 @@
 # sign-draft
 
-A Claude Code skill for **authoring new [SIGN](https://github.com/sign-notation/sign-lang) documents from intent** — a concept, rough notes, or requirements — rather than converting an existing file.
+A Claude Code skill for **authoring new [SIGN](https://github.com/sign-protocol/sign-lang) documents from intent** — a concept, rough notes, or requirements — rather than converting an existing file.
 
 ## Mission
 
@@ -60,7 +60,7 @@ drift so you re-sync on purpose (ideally in CI) rather than silently picking up 
 ## Integration with SIGN-LANG
 
 `sign-draft` depends on the SIGN spec but versions independently. Its bundled reference is synced from
-the canonical `spec/skill-reference.md` in [SIGN-LANG](https://github.com/sign-notation/sign-lang);
+the canonical `spec/skill-reference.md` in [SIGN-LANG](https://github.com/sign-protocol/sign-lang);
 the full `spec/sign-v1.0.md` remains the ultimate authority.
 
 - Requires: `sign validate` command from the upstream SIGN toolchain
@@ -68,6 +68,6 @@ the full `spec/sign-v1.0.md` remains the ultimate authority.
 
 ## Related
 
-- [SIGN-LANG](https://github.com/sign-notation/sign-lang) - The spec
+- [SIGN-LANG](https://github.com/sign-protocol/sign-lang) - The spec
 - [sign-ingest](../sign-ingest) - Document → SIGN converter
 - [sign-tools](../../README.md) - Parent toolbox

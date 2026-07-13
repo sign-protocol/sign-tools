@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://sign-notation.org/schemas/sign-ingest-ir.schema.json",
+  "$id": "https://sign-protocol.org/schemas/sign-ingest-ir.schema.json",
   "title": "sign-ingest Intermediate Representation",
   "type": "object",
   "required": ["manifest", "metadata", "definition", "drops"],

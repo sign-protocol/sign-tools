@@ -1,6 +1,6 @@
 # GitHub Copilot Instructions for Sign Tools
 
-This is a monorepo for tools supporting the [SIGN-LANG](https://github.com/sign-notation/sign-lang) open-source project. As Copilot/Codex, adhere to these guidelines:
+This is a monorepo for tools supporting the [SIGN-LANG](https://github.com/sign-protocol/sign-lang) open-source project. As Copilot/Codex, adhere to these guidelines:
 
 ## Repository Purpose
 - **Mission**: Provide reference implementations for SIGN-LANG ecosystem
@@ -16,7 +16,7 @@ This is a monorepo for tools supporting the [SIGN-LANG](https://github.com/sign-
 
 ## Development Workflow
 1. Review request, constraints, and risk level
-2. Consult `.agent/operating-system/product/project-brief.md` for repo intent
+2. Consult `.agent/operating-system/product/README.md` for repo intent
 3. For tool-specific work, read `packages/<tool>/SPEC.md` first
 4. For significant work, create/update plans in `.agent/operating-system/plans/`
 5. Seek approval for high-risk actions

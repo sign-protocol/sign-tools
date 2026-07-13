@@ -1,6 +1,6 @@
 # Sign Tools
 
-**A toolbox of reference implementations and utilities for the [SIGN-LANG](https://github.com/sign-notation/sign-lang) open-source project.**
+**A toolbox of reference implementations and utilities for the [SIGN-LANG](https://github.com/sign-protocol/sign-lang) open-source project.**
 
 SIGN (Sigil Intelligence Graph Notation) is a strongly-typed, human-readable, token-optimized notation system for declaring knowledge to agents.
 
