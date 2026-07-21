@@ -1,0 +1,59 @@
+@doc ST-ARCH [ref, active, agents+employees] v1
+
+@anchor [repo:sign-tools, vcs:git]
+  + packages/sign-ingest/src/**
+  + packages/sign-draft/.claude/**
+  + shared/**
+
+@vocab
+  ir             | Intermediate Representation — the normalized in-memory structure extracted from a source document before SIGN emission.
+  sign-emitter   | The deterministic emitter that serializes an IR into a valid .sign text file with canonical block ordering and a sha: hash.
+  drop-report    | JSON report listing source spans that could not be mapped to any SIGN block. Evidence of what was lost.
+  provenance     | JSON report mapping every emitted SIGN block back to the source span(s) it was derived from.
+  semantic-gap   | A region of the source document whose meaning is not represented in the emitted SIGN, scored by severity and kind.
+  ontology       | A vocabulary registry that maps predicate tokens to human-readable definitions, used by the emitter to populate @vocab blocks.
+  okf            | Organizational Knowledge Framework — a directory-based knowledge structure that sign-ingest can import into SIGN skeletons.
+  validator      | The upstream sign-lang validator invoked as a subprocess to prove well-formedness of emitted .sign files.
+  review         | An interactive or pre-existing human review layer that annotates emitted SIGN before final output.
+  doctype        | A classification of the source document (policy, standard, adr, plan, glossary, reference) that selects the IR extraction handler.
+
+@def sign-tools-architecture
+  A monorepo of independently versioned Node.js packages that share no runtime code (yet).
+  sign-ingest is a deterministic pipeline: source document in, validated .sign + reports out.
+  sign-draft is a Claude Code skill that produces SIGN through LLM-guided authoring.
+  Both depend on sign-lang for validation but neither imports sign-lang as a library;
+  they shell out to the sign CLI or bundle a synced copy of the spec reference.
+
+@props
+  + ingest-source-layer      | packages/sign-ingest/src/document/source.js — reads and normalizes input files. discoverInputFiles for batch mode.
+  + ingest-handler-registry  | packages/sign-ingest/src/handlers/registry.js — dispatches to doctype-specific IR extractors. extractIr is the entry point.
+  + ingest-emitter           | packages/sign-ingest/src/emitter/sign-emitter.js — deterministic SIGN emitter. Canonical block order: @vocab, @def, @props, @include, @exclude, @rules, @boundary, @constraints, @infer, @rel, @edges, @xwalk, @attrs, @phases, @status. Produces sha: hash.
+  + ingest-reports           | packages/sign-ingest/src/reports/reports.js — generates drop and provenance reports as JSON.
+  + ingest-semantic-check    | packages/sign-ingest/src/validation/semantic-completeness.js — measures coverage and identifies semantic gaps between source and emitted SIGN.
+  + ingest-validator-bridge  | packages/sign-ingest/src/validator-bridge/validator.js — shells out to the sign CLI validator. Returns { ok, errors, warnings, summary }.
+  + ingest-review            | packages/sign-ingest/src/review/review.js — applies existing review annotations or runs interactive review.
+  + ingest-ontology          | packages/sign-ingest/src/ontology/load.js — loads predicate ontology for @vocab population.
+  + ingest-okf-import        | packages/sign-ingest/src/okf/ — OKF directory import: markdown-source.js parses OKF markdown, typemap.js classifies concepts, import-okf.js orchestrates the import and writes skeletons.
+  + ingest-cli               | packages/sign-ingest/src/cli/main.js — CLI entry point. Parses argv, dispatches to convert/batch/doctor/promote/import.
+  + ingest-evals             | packages/sign-ingest/evals/ — evaluation runner for quality measurement of conversion output.
+  + draft-skill-definition   | packages/sign-draft/.claude/skills/sign-draft/SKILL.md — the skill definition that Claude Code loads.
+  + draft-spec-reference     | packages/sign-draft/.claude/skills/sign-draft/references/sign-spec.md — synced copy of sign-lang spec/skill-reference.md. Must not be edited directly; use npm run sync.
+  + draft-sync-script        | packages/sign-draft/scripts/sync-spec.js — copies the canonical spec reference from sign-lang. npm test checks for drift.
+
+@rules
+  1. Each package is independently functional and testable. No cross-package runtime imports exist today.
+  2. The emitter produces SIGN in canonical block order. Adding a new block type requires updating the emitter's addBlock sequence.
+  3. Provenance tracking is mandatory. Every emitted block must trace back to source spans; drops must be reported.
+  4. The validator bridge shells out to the sign CLI. It does not parse SIGN internally.
+  5. The ontology provides predicate definitions for @vocab. If a predicate has no ontology entry, the emitter falls back to a generated definition.
+  6. Confidence capping: inferred extractions are capped at medium confidence even if the handler initially assigns high.
+  7. sign-draft's bundled spec reference is a synced copy. Edit the canonical file in sign-lang, then npm run sync.
+  8. OKF import produces skeletons marked TODO(sign-draft) for governance fields that require human authoring.
+
+@constraints
+  Do not add cross-package runtime imports. If shared code is needed, extract it to shared/ with an explicit contract.
+  Do not edit sign-draft's bundled spec reference directly. The canonical source is sign-lang spec/skill-reference.md.
+  Do not add EF Core, ORMs, or database layers. This repo is pure Node.js tooling with filesystem I/O.
+  Do not bypass the validator bridge by parsing SIGN internally. The upstream sign-lang validator is the single source of truth for well-formedness.
+  Do not emit SIGN blocks in non-canonical order. The block ordering in sign-emitter.js is authoritative.
+  Do not set confidence to high on inferred extractions. The capConfidence function enforces this ceiling.

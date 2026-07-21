@@ -1,0 +1,21 @@
+@doc ST-DEPS [ref, active, agents+employees] v1
+
+@anchor [repo:sign-tools, vcs:git]
+  + package.json
+  + packages/sign-ingest/package.json
+  + packages/sign-draft/package.json
+
+@props external
+  + sign-lang                | Upstream SIGN spec, parser, and validator. sign-ingest shells out to the sign CLI for validation. sign-draft syncs the spec reference from spec/skill-reference.md. Not an npm dependency; consumed via CLI subprocess and file sync.
+  + ch-canon-tools           | Career Highways-specific canon layer. Consumes sign-tools output (SIGN documents, index entries) for canon storage and indexing. Not a dependency of sign-tools; sign-tools is a dependency of ch-canon-tools.
+  + node-stdlib              | Node.js standard library (node:fs, node:path, node:crypto, node:test). The only runtime dependencies. No third-party npm packages are used.
+  + npm-workspaces           | npm workspace protocol manages the monorepo. Root package.json "workspaces": ["packages/*"].
+  + claude-code              | sign-draft is a Claude Code skill. It runs inside Claude Code sessions and depends on the Claude Code skill loading mechanism (.claude/skills/).
+  + sign-validator-cli       | The sign validate CLI command from sign-lang. sign-ingest's validator-bridge.js invokes it as a child process. Path resolved via --validator-bin flag or PATH lookup.
+
+@edges ecosystem
+  sign-tools    consumes     sign-lang         [conf:high, status:validated, type:asserted, src:validator-bridge.js]
+  sign-tools    consumed-by  ch-canon-tools    [conf:high, status:validated, type:asserted, src:README.md]
+  sign-ingest   shells-out   sign-validator    [conf:high, status:validated, type:asserted, src:validator-bridge/validator.js]
+  sign-draft    syncs-from   sign-lang-spec    [conf:high, status:validated, type:asserted, src:scripts/sync-spec.js]
+  sign-draft    runs-in      claude-code       [conf:high, status:validated, type:asserted, src:packages/sign-draft/README.md]

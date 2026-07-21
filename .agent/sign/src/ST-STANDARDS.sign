@@ -1,0 +1,35 @@
+@doc ST-STANDARDS [ref, active, agents+employees] v1
+
+@rules
+  1. CommonJS module system. All files use 'use strict' and require/module.exports. No ESM in production code.
+  2. Node.js >= 18.0.0 required. Use node: protocol for built-in imports (node:fs, node:path, node:crypto).
+  3. Zero third-party runtime dependencies. All functionality is implemented with Node.js standard library only.
+  4. Tests use node:test (the built-in test runner). Run with npm test at the package level or root level.
+  5. Each package is independently versioned, tested, and documented. Root npm scripts delegate to workspace packages.
+  6. CLI tools expose a bin entry in package.json. The binary is a thin wrapper that calls the main function from src/cli/main.js.
+  7. Every conversion must produce provenance and drop reports alongside the SIGN output. No silent data loss.
+  8. Semantic completeness is checked after emission. Gaps are surfaced as warnings by default; --strict-semantic makes high-severity gaps fail the run.
+  9. The emitter is deterministic. Given the same input and ontology, it produces identical output including the sha: hash.
+  10. Configuration files (doctype maps, ontologies, typemaps) are loaded from the filesystem via explicit paths. No environment-variable-based config.
+  11. Error handling uses thrown Error objects with an exitCode property for CLI-visible failures.
+  12. Functions are small and single-purpose. The pipeline is composed of pure-ish functions connected in convertDocument.
+  13. Skills (sign-draft) are pure markdown definitions. They carry no runtime code; the LLM interprets the skill definition at invocation time.
+  14. Synced references must not be edited in place. Edit the canonical source in sign-lang, then run the sync script.
+  15. New tools go in packages/<tool-name>/ with their own README, SPEC (if applicable), package.json, and tests.
+
+@disallowed
+  + no-esm-in-production     | Do not use ES module syntax (import/export) in production source files. CommonJS only.
+  + no-third-party-deps      | Do not add third-party npm runtime dependencies. Dev dependencies for testing or tooling are acceptable if justified.
+  + no-cross-package-imports  | Do not import from one package into another at runtime. Shared code goes to shared/ with an explicit contract.
+  + no-internal-sign-parsing | Do not parse or validate SIGN internally. Shell out to the sign-lang validator.
+  + no-silent-drops          | Do not discard source content without recording it in the drop report.
+  + no-manual-spec-edits     | Do not edit the synced spec reference in sign-draft. Use the sync script.
+  + no-global-state          | Do not use module-level mutable state. Functions receive their dependencies as arguments.
+  + no-database-layers       | Do not add database access, ORMs, or persistence beyond filesystem reads and writes.
+
+@constraints
+  MIT license applies to all code. Contributions must be compatible.
+  The agentic operating system (.agent/) governs development workflow. Plans, decisions, and policies live there.
+  Approval boundaries defined in .agent/policies/approvals.md must be respected. Stop and request human approval for destructive, auth, or infrastructure changes.
+  The SIGN spec (sign-lang) is the upstream authority. sign-tools implements the spec; it does not extend or modify it.
+  Coding standards in .agent/policies/agent-coding-standards.md apply to all code in this repo.

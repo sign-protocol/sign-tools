@@ -1,0 +1,8 @@
+{
+  "type": "codebase",
+  "slug": "sign-tools",
+  "displayName": "sign-tools — SIGN Tooling Monorepo",
+  "repo": "sign-tools",
+  "srcDir": ".agent/sign/src",
+  "distDir": ".agent/sign/dist"
+}
