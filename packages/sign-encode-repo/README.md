@@ -1,4 +1,4 @@
-# @sign-tools/sign-encode
+# @sign-tools/sign-encode-repo
 
 A Claude Code skill that walks a repository and generates its **SIGN engineering canon** — a small,
 governed set of documents that tells a coding agent what the repo is, how it is built, what it
@@ -6,9 +6,14 @@ depends on, and what rules bind it.
 
 An agent arriving at an encoded repo orients from a short, always-loaded index instead of reading the tree.
 
-- **Skill:** [`.claude/skills/sign-encode/SKILL.md`](.claude/skills/sign-encode/SKILL.md)
+**For code repositories.** sign-encode-repo works on a repository of source code with build manifests
+(`*.csproj`, `package.json`, `pyproject.toml`, `go.mod`, `pom.xml`, `build.gradle`, `Cargo.toml`,
+`Gemfile`); it reads them to derive the module graph. For a repository of documents (policies,
+standards, ADRs), use [`sign-ingest`](../sign-ingest) or [`sign-draft`](../sign-draft) instead.
+
+- **Skill:** [`.claude/skills/sign-encode-repo/SKILL.md`](.claude/skills/sign-encode-repo/SKILL.md)
 - **Spec:** [SIGN v1.0](https://github.com/sign-protocol/sign-lang) — vendored at
-  [`references/sign-spec.md`](.claude/skills/sign-encode/references/sign-spec.md)
+  [`references/sign-spec.md`](.claude/skills/sign-encode-repo/references/sign-spec.md)
 - **License:** Apache-2.0
 
 ## What it produces
@@ -34,7 +39,7 @@ Plus a delimited block in `AGENTS.md` and `CLAUDE.md` pointing agents at the can
 ## Trust posture
 
 This skill runs against source you may regard as your most valuable IP. Read
-[`references/safety.md`](.claude/skills/sign-encode/references/safety.md) before running it — it is
+[`references/safety.md`](.claude/skills/sign-encode-repo/references/safety.md) before running it — it is
 the enforceable detail behind these claims, not a disclaimer.
 
 - **Bounded writes.** Only `.agent/sign/**` and one delimited block in the agent files. The full
@@ -58,7 +63,7 @@ let you forget that.
 
 ## Usage
 
-Install the skill (copy `.claude/skills/sign-encode/` into your project's `.claude/skills/`, or
+Install the skill (copy `.claude/skills/sign-encode-repo/` into your project's `.claude/skills/`, or
 install this package), then ask Claude Code:
 
 > SIGN-encode this repo

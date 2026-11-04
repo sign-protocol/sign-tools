@@ -1,5 +1,5 @@
 {
-  "name": "@sign-tools/sign-encode",
+  "name": "@sign-tools/sign-encode-repo",
   "version": "0.1.0",
   "description": "Claude Code skill for encoding a whole codebase as a SIGN engineering canon under .agent/sign/, with anchors, honest provenance, and a coverage split.",
   "license": "Apache-2.0",

@@ -1,6 +1,6 @@
 # Codebase canon — the four-document pattern
 
-Reference for `sign-encode`. Load before authoring (Step 6). The general sigil vocabulary is in
+Reference for `sign-encode-repo`. Load before authoring (Step 6). The general sigil vocabulary is in
 [`sign-spec.md`](sign-spec.md); this file covers only what is specific to encoding a *codebase*.
 
 A codebase canon answers four questions an agent has on arriving at an unfamiliar repo:

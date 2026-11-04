@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
- * sync-spec.js — keep the bundled sign-encode skill reference in step with its
+ * sync-spec.js — keep the bundled sign-encode-repo skill reference in step with its
  * canonical source in the sign-lang repository.
  *
  * Canonical source : sign-lang/spec/skill-reference.md
- * Synced copy      : .claude/skills/sign-encode/references/sign-spec.md
+ * Synced copy      : .claude/skills/sign-encode-repo/references/sign-spec.md
  *
- * The spec is vendored at authoring time, never fetched at run time. sign-encode
+ * The spec is vendored at authoring time, never fetched at run time. sign-encode-repo
  * runs against source the operator may regard as their most valuable IP; it has
  * no runtime network dependency and works air-gapped. This script is the only
  * thing that touches the network boundary, and it runs in CI and on a developer
@@ -25,7 +25,7 @@ const fs = require("fs");
 const path = require("path");
 
 const PACKAGE_DIR = path.resolve(__dirname, "..");
-// packages/sign-encode -> packages -> sign-tools (repo root)
+// packages/sign-encode-repo -> packages -> sign-tools (repo root)
 const SIGN_TOOLS_ROOT = path.resolve(PACKAGE_DIR, "..", "..");
 
 const CANONICAL_REL = path.join("spec", "skill-reference.md");
@@ -33,7 +33,7 @@ const BUNDLED_PATH = path.join(
   PACKAGE_DIR,
   ".claude",
   "skills",
-  "sign-encode",
+  "sign-encode-repo",
   "references",
   "sign-spec.md"
 );

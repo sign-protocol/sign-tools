@@ -90,12 +90,12 @@
     enforced-by: skill-workflow-report-step
 
 @edges skill-contract
-  SKILL-CONTRACT governs sign-encode [type:asserted, src:sign-encode/SKILL.md]
+  SKILL-CONTRACT governs sign-encode-repo [type:asserted, src:sign-encode-repo/SKILL.md]
   SKILL-CONTRACT governs business-logic-audit [type:asserted, src:business-logic-audit/SKILL.md]
-  business-logic-audit delegates_to sign-encode [when:repo-unencoded, type:asserted, src:business-logic-audit/SKILL.md]
-  sign-encode vendors sign-lang-spec [via:sync-spec, when:authoring, type:asserted, src:scripts/sync-spec.js]
+  business-logic-audit delegates_to sign-encode-repo [when:repo-unencoded, type:asserted, src:business-logic-audit/SKILL.md]
+  sign-encode-repo vendors sign-lang-spec [via:sync-spec, when:authoring, type:asserted, src:scripts/sync-spec.js]
   business-logic-audit vendors SKILL-CONTRACT [via:sync-contract, when:authoring, type:asserted, src:scripts/sync-contract.js]
-  sign-encode vendors SKILL-CONTRACT [via:sync-contract, when:authoring, type:asserted, src:scripts/sync-contract.js]
+  sign-encode-repo vendors SKILL-CONTRACT [via:sync-contract, when:authoring, type:asserted, src:scripts/sync-contract.js]
 
 @status
   canonical-source: shared/sign/SKILL-CONTRACT.sign

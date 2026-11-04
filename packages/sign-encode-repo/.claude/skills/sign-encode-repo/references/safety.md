@@ -1,6 +1,6 @@
 # Safety, read scope, and redaction
 
-Reference for `sign-encode` and `business-logic-audit`. Both skills run against source the
+Reference for `sign-encode-repo` and `business-logic-audit`. Both skills run against source the
 operator may regard as their most valuable IP. This file is the enforceable detail behind the
 Operating Contract in each SKILL.md.
 
@@ -132,7 +132,7 @@ way of your report.
 
 ## 5. Write boundary
 
-`sign-encode` writes only:
+`sign-encode-repo` writes only:
 
 ```
 .agent/sign/canon.source.json        created once, never overwritten
@@ -141,7 +141,7 @@ way of your report.
 AGENTS.md, CLAUDE.md                 only between <!-- SIGN:BEGIN --> and <!-- SIGN:END -->
 ```
 
-`business-logic-audit` writes only inside its output directory, plus whatever `sign-encode` writes
+`business-logic-audit` writes only inside its output directory, plus whatever `sign-encode-repo` writes
 when it delegates.
 
 **Never**, in either skill:

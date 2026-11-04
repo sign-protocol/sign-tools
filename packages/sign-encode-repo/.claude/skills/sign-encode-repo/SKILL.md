@@ -1,5 +1,5 @@
 ---
-name: sign-encode
+name: sign-encode-repo
 description: >
   Walk a codebase and generate its SIGN engineering canon under `.agent/sign/` — four
   machine-drafted documents (OVERVIEW, ARCH, DEPS, STANDARDS), a compiled Layer 1 index and
@@ -10,7 +10,7 @@ description: >
   SIGN document from intent use sign-draft; for converting one existing file use sign-ingest.
 ---
 
-# sign-encode
+# sign-encode-repo
 
 Turn a repository into a SIGN **codebase canon**: a small, governed set of documents that tells a
 coding agent what this repo is, how it is built, what it depends on, and what rules bind it —
@@ -347,7 +347,7 @@ Tell the operator:
 
 ## Scope
 
-- **Use sign-encode for:** encoding or refreshing a whole repository's canon; making a codebase
+- **Use sign-encode-repo for:** encoding or refreshing a whole repository's canon; making a codebase
   agent-navigable; producing a coverage baseline.
 - **Use sign-draft for:** authoring one SIGN document from intent.
 - **Use sign-ingest for:** converting one existing markdown document into SIGN.
