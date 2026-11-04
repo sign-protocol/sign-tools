@@ -1,0 +1,32 @@
+@doc <PREFIX>-OVERVIEW [ref, active, agents+employees, machine-drafted] v1
+## <One dense line: what this repo is, its runtime, and the one thing that surprises people. This is often the only string an agent reads before deciding what to fetch.>
+@links <PREFIX>-ARCH,<PREFIX>-DEPS,<PREFIX>-STANDARDS
+@anchor [repo:<repo-name>, vcs:git]
+  + <entrypoint module glob>
+  + infrastructure/**
+  + config/**
+  + README.md
+@cycle 90d
+@reviewed <YYYY-MM-DD from: git log -1 --format=%ad --date=short -- <anchored paths>>
+
+@def <slug>
+  Continuous prose, one primary definition. What this service or library is, what it receives,
+  what it produces, and what it delegates. Say what it is in the system, not what its files are.
+  Three to six lines. Not bullets.
+
+@props
+  + runtime        | <language + version>
+  + <module>       | <its job in one line>
+  + <module>       | <its job in one line>
+  + entrypoints    | <composition root; config catalogs; IaC root>
+  + <notable>      | <anything an agent must know before writing code here>
+
+@boundary
+  + owns     | <responsibility this repo genuinely owns>
+  + owns     | <another>
+  ! not-owns | <responsibility people assume it owns> -> <where it actually lives>
+  ! not-owns | <another> -> <owner>
+
+@status
+  <key>: <what is actually true right now, including the embarrassing parts>
+  known-gap: <in-memory store, unbuilt ADR, disabled fallback — an agent that does not know this writes wrong code>

@@ -23,6 +23,7 @@ sign-tools/
 ├── packages/                     # Tools and utilities
 │   ├── sign-ingest/             # Document → SIGN converter (v0.1)
 │   ├── sign-draft/              # Authoring skill: intent → SIGN (v0.1)
+│   ├── sign-encode-repo/        # Codebase → SIGN canon (v0.1)
 │   └── [future tools]
 ├── shared/                       # Shared code/utilities across tools
 └── [Tool-specific examples]
@@ -41,6 +42,20 @@ Claude Code skill for authoring net-new SIGN documents from intent (a concept, n
 
 - **Skill**: [SKILL.md](packages/sign-draft/.claude/skills/sign-draft/SKILL.md)
 - **README**: [packages/sign-draft/README.md](packages/sign-draft/README.md)
+
+### sign-encode-repo (v0.1)
+Claude Code skill that walks a whole code repository and generates its SIGN engineering canon under
+`.agent/sign/`: four machine-drafted documents (OVERVIEW, ARCH, DEPS, STANDARDS), a compiled
+Layer 1 index and Layer 2 bundle, a coverage report, and a delimited SIGN block in `AGENTS.md` /
+`CLAUDE.md`, so an agent orients from the canon instead of reading the tree.
+
+- **Skill**: [SKILL.md](packages/sign-encode-repo/.claude/skills/sign-encode-repo/SKILL.md)
+- **README**: [packages/sign-encode-repo/README.md](packages/sign-encode-repo/README.md)
+
+`sign-encode-repo` runs against source you may regard as your most valuable IP. Its SKILL.md opens with
+an explicit operating contract (bounded writes, no source mutation, no network egress, a mandatory
+secret-redaction pass, pointers rather than pasted code, honest provenance) and
+`references/safety.md` holds the detail. Read it before you run the skill.
 
 ## Agentic Operating System
 

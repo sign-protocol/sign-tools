@@ -1,0 +1,24 @@
+@doc <PREFIX>-DEPS [ref, active, agents+employees, machine-drafted] v1
+## <Dependency graph in one line: internal module edges (generated from manifests), external packages, and cross-repo runtime deps.>
+@links <PREFIX>-OVERVIEW,<PREFIX>-ARCH
+@anchor [repo:<repo-name>, vcs:git, generated-from:<manifest-kind>]
+  + **/*.<manifest-ext>
+@cycle 30d
+@reviewed <YYYY-MM-DD from git log for the manifests>
+
+@vocab
+  depends_on | source cannot build or run without the target present
+  consumes   | source calls the target at runtime across a service or HTTP boundary
+
+@props external
+  + <Package>  | <why it is here> [<module that pulls it in>]
+  + <Package>  | <why it is here> [<module>]
+
+@edges repo:<repo-name>
+  # internal module graph — generated from <manifest glob>; do not hand-edit
+  proj:<Module> depends_on proj:<Module> [type:asserted, src:<manifest-kind>]
+
+  # cross-repo runtime deps — registry-resolvable form codebase.<slug>#<DOC-ID>.
+  # A repo that is not an enrolled canon source stays a bare repo: string.
+  repo:<repo-name> consumes codebase.<slug>#<DOC-ID> [via:http, when:runtime, type:asserted, src:<grounding file>]
+  repo:<repo-name> depends_on repo:<unenrolled-repo> [for:<what>, type:asserted, src:<grounding file>]
