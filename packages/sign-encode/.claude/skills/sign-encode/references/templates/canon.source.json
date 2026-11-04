@@ -1,0 +1,9 @@
+{
+  "type": "codebase",
+  "slug": "<repo-slug>",
+  "displayName": "<repo-name> engineering canon",
+  "owner": "<owning-team>",
+  "docPrefix": "<PREFIX>",
+  "srcDir": ".",
+  "distDir": "dist"
+}

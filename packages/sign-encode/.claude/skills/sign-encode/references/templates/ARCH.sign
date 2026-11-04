@@ -1,0 +1,36 @@
+@doc <PREFIX>-ARCH [std, active, agents+employees, machine-drafted] v1
+## <Structure in one line: module count and names, the governing pattern, and the dependency direction.>
+@links <PREFIX>-OVERVIEW,<PREFIX>-DEPS,<PREFIX>-STANDARDS
+@anchor [repo:<repo-name>, vcs:git]
+  + <source glob, e.g. src/<Project>.*/**>
+  ! **/*.Tests/**
+  ! **/bin/**
+  ! **/obj/**
+@cycle 90d
+@reviewed <YYYY-MM-DD from git log for the anchored paths>
+
+@def architecture
+  Continuous prose. How the modules divide responsibility, which way dependencies point, where the
+  composition root is, and which abstractions are ports versus adapters. State the dependency
+  direction explicitly — it is the claim the contradiction check validates.
+
+@props <group-name>
+  + <ServiceOrType>  | <its job in one line>
+  + <ServiceOrType>  | <its job in one line>
+
+@props <public-surface>
+  + <Controller / route / export>  | <what it exposes>
+
+@rules
+  1. <Imperative, independently actionable. "Controllers are dispatch-only; orchestration lives in X.">
+  2. <Something an agent could otherwise get wrong.>
+  3. <A fail-safe behavior worth stating: what happens below a threshold, on timeout, on conflict.>
+
+@constraints
+  <slug>
+  requires: <the dependency-direction invariant — this is checked mechanically against the manifests>
+  forbids:  <a state or action that is unconditionally prohibited>
+  enforced-by: <code-review | analyzer | CI gate | named standard>
+
+@status
+  known-gap: <architectural debt an agent should not mistake for intent>

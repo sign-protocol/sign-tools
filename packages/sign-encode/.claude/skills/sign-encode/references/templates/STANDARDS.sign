@@ -1,0 +1,25 @@
+@doc <PREFIX>-STANDARDS [std, active, agents+employees, machine-drafted] v1
+## <Coding standards in one line: repo-specific deltas only; shared standards referenced, not duplicated.>
+@links <PREFIX>-ARCH
+@cycle 90d
+@reviewed <YYYY-MM-DD>
+
+# NOTE: STANDARDS carries no spatial @anchor. Its scope is ~every source file in the repo;
+# anchoring it would make coverage meaningless and flood the Layer 1 index.
+
+@def standards-scope
+  This document carries only deltas specific to <repo-name>. The binding shared engineering
+  standards live in <where>; read those first — they are authoritative and are not duplicated here.
+
+@props shared-standards
+  + <STD-ID>  | <what it governs> (binding)
+  + <STD-ID>  | <what it governs> (binding)
+
+@rules
+  1. <A rule that is true here and not everywhere. If it would apply to any repo, it belongs in the shared standard, not here.>
+  2. <A convention an agent would otherwise violate: tenancy binding, config-as-source-of-truth, immutability.>
+  3. <A fail-safe: what to do at a boundary condition rather than guessing.>
+
+@disallowed
+  ! <a pattern that is specifically wrong in this repo>
+  ! <another>
