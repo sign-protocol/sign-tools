@@ -1,0 +1,40 @@
+@doc ST-OVERVIEW [ref, active, agents+employees] v1
+
+@anchor [repo:sign-tools, vcs:git]
+  + packages/**
+  + shared/**
+  + docs/**
+  ! **/node_modules/**
+  ! **/test/**
+  ! **/evals/**
+
+@def sign-tools-overview
+  sign-tools is a Node.js monorepo of reference implementations and utilities for the
+  SIGN-LANG ecosystem. It houses independently versioned tools that convert, author,
+  validate, and transform SIGN documents. The two shipping packages are sign-ingest
+  (a CLI that mechanically converts source documents into SIGN with provenance tracking)
+  and sign-draft (a Claude Code skill that authors net-new SIGN documents from intent).
+
+@props
+  + monorepo-npm-workspaces  | Node.js monorepo using npm workspaces. Root package.json declares "workspaces": ["packages/*"]. Each package versions independently.
+  + sign-ingest-cli          | @sign-tools/sign-ingest (v0.1.0) — CLI tool that converts unstructured documents (policies, standards, ADRs, plans, glossaries) into valid SIGN with full provenance, drop reports, and semantic completeness checks.
+  + sign-draft-skill         | @sign-tools/sign-draft (v0.1.0) — Claude Code skill for authoring new SIGN documents from intent. Pure skill with no CLI; the generative counterpart to sign-ingest's mechanical conversion.
+  + shared-directory         | shared/ — reserved for cross-package utilities. Currently a placeholder with README only.
+  + agentic-os               | .agent/ — repo-wide agentic operating system with policies, prompts, rubrics, decisions, and plans.
+  + open-source-mit          | MIT-licensed open source project. CODE_OF_CONDUCT.md, CONTRIBUTING.md, SECURITY.md at root.
+  + node-18-minimum          | Requires Node.js >= 18.0.0. CommonJS module system throughout.
+  + ingest-commands          | sign-ingest CLI commands: convert, batch, doctor, promote, import okf.
+  + ingest-pipeline          | Ingest pipeline stages: read source -> extract IR -> emit SIGN -> generate drop/provenance reports -> semantic completeness check -> validate -> optional review -> optional repair.
+  + draft-workflow           | Draft workflow: establish document identity -> draft Layer 2 in canonical block order -> enforce provenance discipline -> generate Layer 1 index entry -> validate with upstream sign validator.
+  + okf-import               | OKF import: converts an Organizational Knowledge Framework directory into SIGN skeletons with cross-reference resolution and typemap-based classification.
+  + ecosystem-trio           | Works alongside sign-lang (parser/validator/spec) and ch-canon-tools (Career Highways-specific canon layer). sign-lang is the upstream authority; sign-tools consumes it.
+
+@boundary
+  sign-tools is tooling, not the spec. It implements converters and authoring helpers; it does not define the SIGN notation itself. The spec lives in sign-lang.
+  sign-tools does not own canon storage or indexing. That responsibility belongs to ch-canon-tools for Career Highways, and to each consumer's own canon layer for other adopters.
+  sign-draft is a skill, not a service. It runs inside Claude Code sessions; it has no HTTP surface, no daemon, no persistence of its own.
+
+@status
+  active: sign-ingest v0.1 and sign-draft v0.1 are shipping.
+  planned: additional tools (validators, linters, IDE integrations) are anticipated under packages/ but not yet started.
+  shared/ is a placeholder; no shared code has been extracted yet.
