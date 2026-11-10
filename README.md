@@ -2,6 +2,8 @@
 
 **A toolbox of reference implementations and utilities for the [SIGN-LANG](https://github.com/sign-protocol/sign-lang) open-source project.**
 
+**New to SIGN? Start at [sign-protocol.github.io/sign-lang](https://sign-protocol.github.io/sign-lang/?utm_source=github-sign-tools-readme&utm_medium=referral&utm_campaign=sign-open-source&utm_content=site-link-top)**: a guide for engineers and one for teams, including a note for your security team before you run these tools.
+
 SIGN (Sigil Intelligence Graph Notation) is a strongly-typed, human-readable, token-optimized notation system for declaring knowledge to agents.
 
 ## Mission
@@ -56,6 +58,12 @@ Layer 1 index and Layer 2 bundle, a coverage report, and a delimited SIGN block 
 an explicit operating contract (bounded writes, no source mutation, no network egress, a mandatory
 secret-redaction pass, pointers rather than pasted code, honest provenance) and
 `references/safety.md` holds the detail. Read it before you run the skill.
+
+## SIGN in Charter
+
+Charter, from Five Deep, delivers a company's knowledge and rules to its agents in SIGN. Charter requires the area owner's approval. A document the owner adds is approved as it's added. Anyone else's waits for the owner.
+
+[Test Drive Charter](https://charter.fivedeep.ai/?utm_source=github-sign-tools-readme&utm_medium=referral&utm_campaign=sign-open-source&utm_content=test-drive), free for 30 days.
 
 ## Agentic Operating System
 
